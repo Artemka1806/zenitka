@@ -78,8 +78,9 @@ cannon_body.position = canon_x_pos, canon_y_pos
 space.add(cannon_body, cannon_shape)
 
 
+
 class Slider:
-	def __init__(self, x, y, width, height, min_value, max_value, default_value):
+	def __init__(self, x, y, width, height, min_value, max_value, default_value, text):
 		self.x = x
 		self.y = y
 		self.width = width
@@ -87,34 +88,51 @@ class Slider:
 		self.min_value = min_value
 		self.max_value = max_value
 		self.value = default_value
+		self.text = text
 
 	def draw(self, window):
 		pg.draw.rect(window, BLACK, (self.x, self.y, self.width, self.height))
 		value_width = (self.value - self.min_value) / (self.max_value - self.min_value) * self.width
 		pg.draw.rect(window, WHITE, (self.x, self.y, value_width, self.height))
+		pg.draw.rect(surface, (255,255,255), (self.x+405, self.y, 20, 20))
+		surface.blit(font.render("+", True, pg.Color("black")),(self.x+410, self.y))
+		pg.draw.rect(surface, (255,255,255), (self.x-25, self.y, 20, 20))
+		surface.blit(font.render("-", True, pg.Color("black")),(self.x-20, self.y))
+		surface.blit(font.render(self.text, True, pg.Color("white")),(self.x-170, self.y))
+		surface.blit(font.render(str(self.value), True, pg.Color("black")),(self.x+200, self.y))
 
 	def update(self, event):
 		if event.type == pg.MOUSEBUTTONDOWN:
 			if event.button == 1:
+				dont_shoot= True
 				mouse_x, mouse_y = pg.mouse.get_pos()
 				if self.x <= mouse_x <= self.x + self.width and self.y <= mouse_y <= self.y + self.height:
-					self.value = (
+					self.value = round((
 						(mouse_x - self.x) / self.width * (self.max_value - self.min_value) + self.min_value
-					)
+					))
+
+				elif mouse_x <= (self.x-25)+15 and mouse_x>=self.x-25 and mouse_y >= self.y and mouse_y <=self.height+self.y:
+					if self.value>self.min_value and self.value<self.max_value:
+						self.value = self.value - 1
+				elif mouse_x <= (self.x+405)+15 and mouse_x>=self.x-25 and mouse_y >= self.y and mouse_y <=self.height+self.y:
+					if self.value>=self.min_value and self.value<self.max_value:
+						self.value = self.value + 1
 
 	def get_value(self):
 		return self.value
 
 
 
-gravity_s = Slider(570, 0, 400, 20, -300, 1000, 100)
-power_s = Slider(570, 30, 400, 20, 100, 5000, 4000)
-distant_s = Slider(570, 60, 400, 20, 10, 1000, 80)
-mass_s = Slider(570, 90, 400, 20, 1, 100, 5)
+gravity_s = Slider(570, 0, 400, 20, -300, 1000, 100, "Гравітація")
+power_s = Slider(570, 30, 400, 20, 100, 5000, 4000, "Сила пострілу")
+distant_s = Slider(570, 60, 400, 20, 10, 1000, 80, "Дальність від цілі")
+mass_s = Slider(570, 90, 400, 20, 1, 100, 5, "Маса снаряду")
+#speed_s = Slider(570, 120, 400, 20, 1, 100, 5)
 
 
 #Відмальовка PyGame
 while True:
+	dont_shoot = False
 	#Заливка фону чорним
 	surface.fill(pg.Color('black'))
 
@@ -129,10 +147,6 @@ while True:
 		surface.blit(font.render("Esc для зупинки руху цілі", True, pg.Color("white")),(0, 0),)
 	else:
 		surface.blit(font.render("Esc для продовження руху цілі", True, pg.Color("white")),(0, 0),)
-
-	#collision_point = pymunk.Shape.shapes_collide(cannonball_shape, target_shape)
-	#if collision_point:
-	#	print("Столкновение произошло!")
 
 	for i in pg.event.get():
 		if i.type == pg.QUIT:
@@ -151,11 +165,13 @@ while True:
 					target_coords_now = (target_x_pos-distant_s.get_value()*0.5, target_y_pos)
 
 				shooting = True
+				
 
 		if i.type == pg.MOUSEBUTTONDOWN:
 			if i.button == 1:
-				mouse_x, mouse_y = pg.mouse.get_pos()
-				shoot(mouse_x, mouse_y)
+				if dont_shoot == False:
+					mouse_x, mouse_y = pg.mouse.get_pos()
+					shoot(mouse_x, mouse_y)
 
 		if shooting:
 			shoot(target_coords_now[0],target_coords_now[1])
@@ -169,11 +185,6 @@ while True:
 	gravity_s.draw(surface)
 	distant_s.draw(surface)
 	mass_s.draw(surface)
-
-	surface.blit(font.render("Гравітація", True, pg.Color("white")),(450, 0),)
-	surface.blit(font.render("Сила пострілу", True, pg.Color("white")),(450, 30),)
-	surface.blit(font.render("Дальність від цілі", True, pg.Color("white")),(450, 60),)
-	surface.blit(font.render("Маса снаряду", True, pg.Color("white")),(450, 90),)
 
 	space.gravity = 0, gravity_s.get_value()
 
