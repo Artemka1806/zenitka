@@ -1,6 +1,4 @@
 #Бібліотеки/модулі
-import time
-
 import pygame as pg
 import pymunk.pygame_util
 from pymunk.vec2d import Vec2d
@@ -19,6 +17,7 @@ surface = pg.display.set_mode(RES)
 clock = pg.time.Clock()
 draw_options = pymunk.pygame_util.DrawOptions(surface)
 font = pg.font.SysFont("Arial", 16)
+pg.display.set_caption("Симуляція зенітної гармати")
 
 #Налаштування Pymunk
 space = pymunk.Space()
@@ -127,7 +126,6 @@ gravity_s = Slider(570, 0, 400, 20, -300, 1000, 100, "Гравітація")
 power_s = Slider(570, 30, 400, 20, 100, 5000, 4000, "Сила пострілу")
 distant_s = Slider(570, 60, 400, 20, 10, 1000, 80, "Дальність від цілі")
 mass_s = Slider(570, 90, 400, 20, 1, 100, 5, "Маса снаряду")
-#speed_s = Slider(570, 120, 400, 20, 1, 100, 5)
 
 
 #Відмальовка PyGame
