@@ -21,7 +21,7 @@ pg.display.set_caption("Симуляція зенітної гармати")
 
 #Налаштування Pymunk
 space = pymunk.Space()
-space.gravity = 0, 1000
+space.gravity = 0, 2000
 
 #Змінна для паузи
 paused = False
@@ -37,9 +37,9 @@ target_x_pos, target_y_pos = 50, 150
 target_dir=1
 
 #Ціль
-target_mass, target_size = 1, (50, 5)
-target_moment = pymunk.moment_for_box(target_mass, target_size)
-target_body = pymunk.Body(target_mass, target_moment,pymunk.Body.KINEMATIC)
+target_mass, target_size = 5, (50, 5)
+#target_moment = pymunk.moment.INFINITY
+target_body = pymunk.Body(target_mass, float('inf'),pymunk.Body.DYNAMIC)
 target_body.color = (255, 50, 50, 255)
 target_body.position = target_x_pos, target_y_pos
 target_shape = pymunk.Poly.create_box(target_body, target_size)
@@ -135,7 +135,7 @@ while True:
 	surface.fill(pg.Color('black'))
 
 	if paused==False:
-		target_x_pos = target_x_pos + target_dir
+		target_x_pos = target_x_pos + target_dir/2
 		target_body.position = target_x_pos, target_y_pos
 
 		if target_x_pos==950:
