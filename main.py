@@ -93,8 +93,8 @@ class Slider:
 		pg.draw.rect(window, BLACK, (self.x, self.y, self.width, self.height))
 		value_width = (self.value - self.min_value) / (self.max_value - self.min_value) * self.width
 		pg.draw.rect(window, WHITE, (self.x, self.y, value_width, self.height))
-		pg.draw.rect(surface, (255,255,255), (self.x+480, self.y, 20, 20))
-		surface.blit(font.render("+", True, pg.Color("black")),(self.x+485, self.y))
+		pg.draw.rect(surface, (255,255,255), (self.x+485, self.y, 20, 20))
+		surface.blit(font.render("+", True, pg.Color("black")),(self.x+490, self.y))
 		pg.draw.rect(surface, (255,255,255), (self.x-25, self.y, 20, 20))
 		surface.blit(font.render("-", True, pg.Color("black")),(self.x-20, self.y))
 		surface.blit(font.render(self.text, True, pg.Color("white")),(self.x-170, self.y))
@@ -113,7 +113,7 @@ class Slider:
 				elif mouse_x <= (self.x-25)+15 and mouse_x>=self.x-25 and mouse_y >= self.y and mouse_y <=self.height+self.y:
 					if self.value>self.min_value and self.value<self.max_value:
 						self.value = self.value - 1
-				elif mouse_x <= (self.x+480)+15 and mouse_x>=self.x-25 and mouse_y >= self.y and mouse_y <=self.height+self.y:
+				elif mouse_x <= (self.x+485)+15 and mouse_x>=self.x-25 and mouse_y >= self.y and mouse_y <=self.height+self.y:
 					if self.value>=self.min_value and self.value<self.max_value:
 						self.value = self.value + 1
 
