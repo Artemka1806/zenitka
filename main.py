@@ -7,7 +7,7 @@ from pymunk.vec2d import Vec2d
 pymunk.pygame_util.positive_y_is_up = False
 
 #Налаштування Pygame
-RES = WIDTH, HEIGHT = 1000, 600
+RES = WIDTH, HEIGHT = 1080, 720
 FPS = 60
 WHITE = (255, 255, 255)
 BLACK = (179, 169, 168)
@@ -67,7 +67,7 @@ def shoot(target_pos_x,target_pos_y):
 shooting = False
 
 #Гармата
-canon_x_pos, canon_y_pos = 500, 575
+canon_x_pos, canon_y_pos = 500, HEIGHT-25
 
 cannon_body = pymunk.Body(body_type=pymunk.Body.KINEMATIC)
 cannon_shape = pymunk.Circle(cannon_body, 10)
@@ -93,8 +93,8 @@ class Slider:
 		pg.draw.rect(window, BLACK, (self.x, self.y, self.width, self.height))
 		value_width = (self.value - self.min_value) / (self.max_value - self.min_value) * self.width
 		pg.draw.rect(window, WHITE, (self.x, self.y, value_width, self.height))
-		pg.draw.rect(surface, (255,255,255), (self.x+405, self.y, 20, 20))
-		surface.blit(font.render("+", True, pg.Color("black")),(self.x+410, self.y))
+		pg.draw.rect(surface, (255,255,255), (self.x+480, self.y, 20, 20))
+		surface.blit(font.render("+", True, pg.Color("black")),(self.x+485, self.y))
 		pg.draw.rect(surface, (255,255,255), (self.x-25, self.y, 20, 20))
 		surface.blit(font.render("-", True, pg.Color("black")),(self.x-20, self.y))
 		surface.blit(font.render(self.text, True, pg.Color("white")),(self.x-170, self.y))
@@ -113,7 +113,7 @@ class Slider:
 				elif mouse_x <= (self.x-25)+15 and mouse_x>=self.x-25 and mouse_y >= self.y and mouse_y <=self.height+self.y:
 					if self.value>self.min_value and self.value<self.max_value:
 						self.value = self.value - 1
-				elif mouse_x <= (self.x+405)+15 and mouse_x>=self.x-25 and mouse_y >= self.y and mouse_y <=self.height+self.y:
+				elif mouse_x <= (self.x+480)+15 and mouse_x>=self.x-25 and mouse_y >= self.y and mouse_y <=self.height+self.y:
 					if self.value>=self.min_value and self.value<self.max_value:
 						self.value = self.value + 1
 
@@ -122,10 +122,10 @@ class Slider:
 
 
 
-gravity_s = Slider(570, 0, 400, 20, -300, 1000, 100, "Гравітація")
-power_s = Slider(570, 30, 400, 20, 100, 5000, 4000, "Сила пострілу")
-distant_s = Slider(570, 60, 400, 20, 10, 1000, 80, "Дальність від цілі")
-mass_s = Slider(570, 90, 400, 20, 1, 100, 5, "Маса снаряду")
+gravity_s = Slider(570, 0, WIDTH-600, 20, -300, 1000, 100, "Гравітація")
+power_s = Slider(570, 30, WIDTH-600, 20, 100, 5000, 4000, "Сила пострілу")
+distant_s = Slider(570, 60, WIDTH-600, 20, 10, 1000, 80, "Дальність від цілі")
+mass_s = Slider(570, 90, WIDTH-600, 20, 1, 100, 5, "Маса снаряду")
 
 
 #Відмальовка PyGame
