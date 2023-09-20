@@ -191,8 +191,10 @@ while True:
 	cannon_body.angle = (target_position - cannon_body.position).angle
 	if target_dir==1:
 		pg.draw.line(surface, (255, 255, 0), (canon_x_pos, canon_y_pos), (target_x_pos+distant_s.get_value()*0.5, target_y_pos))
+		pg.draw.line(surface, (255, 255, 0), (target_x_pos, target_y_pos), (target_x_pos+WIDTH, target_y_pos))
 	else:
 		pg.draw.line(surface, (255, 255, 0), (canon_x_pos, canon_y_pos), (target_x_pos-distant_s.get_value()*0.5, target_y_pos))
+		pg.draw.line(surface, (255, 255, 0), (target_x_pos, target_y_pos), (target_x_pos-WIDTH, target_y_pos))
 
 	pg.draw.line(surface, (255, 255, 255), (canon_x_pos, canon_y_pos), (target_x_pos, target_y_pos))
 
